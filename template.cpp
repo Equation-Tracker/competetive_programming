@@ -17,7 +17,7 @@ using namespace __gnu_pbds;
 typedef long long ll;
 #define whole(v) v.begin(), v.end()
 #define arr_out(v) for (auto x: v) cout << x << " "; cout << "\n";
-#define loop(x) for (ll i = 0; i < x; i++)
+#define loop(x) for (long long i = 0; i < x; i++)
 struct custom_hash {
   static uint64_t splitmix64(uint64_t x);
   size_t operator()(uint64_t x) const;
@@ -33,7 +33,7 @@ class Segment_Tree {
 private:
   std::vector<_Tp> Tree, arr, lazy;
   bool one_based;
-  void lazyUpdate(ll node, ll l, ll r) {
+  void lazyUpdate(long long node, long long l, long long r) {
     if (lazy[node] != 0) {
       Tree[node] += (r - l + 1) * lazy[node]; // <== CHANGE FOR max: Tree[node] += lazy[node];
       if (l != r) {
@@ -43,38 +43,38 @@ private:
       lazy[node] = 0;
     }
   }
-  void build(ll node, ll l, ll r) {
+  void build(long long node, long long l, long long r) {
     if (l == r) {
       Tree[node] = arr[l];
       return;
     }
-    ll mid = (l + r) / 2;
+    long long mid = (l + r) / 2;
     build(2 * node, l, mid);
     build(2 * node + 1, mid + 1, r);
     Tree[node] = Tree[2 * node] + Tree[2 * node + 1]; // <== CHANGE FOR max: max(Tree[2 * node], Tree[2 * node + 1])
   }
-  _Tp queryUtil(ll node, ll l, ll r, ll start, ll end) {
+  _Tp queryUtil(long long node, long long l, long long r, long long start, long long end) {
     lazyUpdate(node, l, r);
     if (end < l || r < start) return 0; // <== CHANGE FOR max: LLONG_MIN
     if (start <= l && r <= end) return Tree[node];
-    ll mid = (l + r) / 2;
+    long long mid = (l + r) / 2;
     _Tp left = queryUtil(2 * node, l, mid, start, end);
     _Tp right = queryUtil(2 * node + 1, mid + 1, r, start, end);
     return left + right; // <== CHANGE FOR max: max(left, right)
   }
-  void updateUtil(ll node, ll index, ll value, ll l, ll r) {
+  void updateUtil(long long node, long long index, long long value, long long l, long long r) {
     lazyUpdate(node, l, r);
     if (l == r) {
       arr[index] += value;
       Tree[node] += value;
       return;
     }
-    ll mid = (l + r) / 2;
+    long long mid = (l + r) / 2;
     if (index <= mid) updateUtil(2 * node, index, value, l, mid);
     else updateUtil(2 * node + 1, index, value, mid + 1, r);
     Tree[node] = Tree[2 * node] + Tree[2 * node + 1]; // <== CHANGE FOR max: max(Tree[2 * node], Tree[2 * node + 1])
   }
-  void rangeUpdateUtil(ll node, ll l, ll r, ll value, ll start, ll end) {
+  void rangeUpdateUtil(long long node, long long l, long long r, long long value, long long start, long long end) {
     lazyUpdate(node, l, r);
     if (r < start || end < l) return;
     if (start <= l && r <= end) {
@@ -85,36 +85,36 @@ private:
       }
       return;
     }
-    ll mid = (l + r) / 2;
+    long long mid = (l + r) / 2;
     rangeUpdateUtil(2 * node, l, mid, value, start, end);
     rangeUpdateUtil(2 * node + 1, mid + 1, r, value, start, end);
     Tree[node] = Tree[2 * node] + Tree[2 * node + 1]; // <== CHANGE FOR max: max(Tree[2 * node], Tree[2 * node + 1])
   }
 public:
-  _Tp query(ll start, ll end) {
+  _Tp query(long long start, long long end) {
     if (one_based) return queryUtil(1, 1, arr.size() - 1, start, end);
     return queryUtil(1, 0, arr.size() - 1, start, end);
   }
-  void update(ll index, ll value) {
+  void update(long long index, long long value) {
     if (one_based) updateUtil(1, index, value, 1, arr.size() - 1);
     else updateUtil(1, index, value, 0, arr.size() - 1);
   }
-  void rangeUpdate(ll start, ll end, ll value) {
+  void rangeUpdate(long long start, long long end, long long value) {
     if (one_based) rangeUpdateUtil(1, 1, arr.size() - 1, value, start, end);
     else rangeUpdateUtil(1, 0, arr.size() - 1, value, start, end);
   }
   Segment_Tree(std::vector<_Tp> &a, bool is_one_based = false) {
     one_based = is_one_based;
     arr = is_one_based ? vector<_Tp>(a.size() + 1) : a;
-    if (is_one_based) for (ll i = 1; i < arr.size(); i++) arr[i] = a[i - 1];
+    if (is_one_based) for (long long i = 1; i < arr.size(); i++) arr[i] = a[i - 1];
     Tree.resize(4 * arr.size(), 0); // <== CHANGE FOR max: LLONG_MIN
     lazy.resize(4 * arr.size());
     if (one_based) build(1, 1, arr.size() - 1);
     else build(1, 0, arr.size() - 1);
   }
 };
-vector<ll> primes{};
-void genPrimes(ll lim = 2.53e6);
+vector<long long> primes{};
+void genPrimes(long long lim = 2.53e6);
 int main(int argc, char const *argv[]) {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
@@ -123,12 +123,12 @@ int main(int argc, char const *argv[]) {
   return 0;
 }
 void caseSolution() {
-  ll n = 0;
+  long long n = 0;
   cin >> n;
-
+  
 }
 void totalSolution() {
-  ll T;
+  long long T;
   cin >> T;
   while (T-- > 0) caseSolution();
 }
@@ -142,11 +142,11 @@ size_t custom_hash::operator()(uint64_t x) const {
   static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
   return splitmix64(x + FIXED_RANDOM);
 }
-void genPrimes(ll lim) {
+void genPrimes(long long lim) {
   vector<bool> visited(lim, 0);
-  for (ll p = 2; p < lim; p++) {
+  for (long long p = 2; p < lim; p++) {
     if (visited[p]) continue;
-    for (ll i = p * p; i < lim; i += p) visited[i] = 1;
+    for (long long i = p * p; i < lim; i += p) visited[i] = 1;
     primes.push_back(p);
   }
 }
