@@ -24,6 +24,7 @@ struct custom_hash {
 };
 void totalSolution();
 void caseSolution();
+long long nCr(long long, long long);
 template <typename _Tp, typename Cm_fn = std::less<_Tp>>
 using ordered_set = __gnu_pbds::tree<_Tp, __gnu_pbds::null_type, Cm_fn, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
 template <typename _Tp, typename _vTp, typename Cm_fn = std::less<_Tp>>
@@ -123,9 +124,10 @@ int main(int argc, char const *argv[]) {
   return 0;
 }
 void caseSolution() {
-  long long n = 0;
+  long long n = 0, m = 0, k = 0, l = 0, sum = 0, t1 = 0, t2 = 0;
+  string s = "", t = "";
   cin >> n;
-  
+
 }
 void totalSolution() {
   long long T;
@@ -149,4 +151,14 @@ void genPrimes(long long lim) {
     for (long long i = p * p; i < lim; i += p) visited[i] = 1;
     primes.push_back(p);
   }
+}
+long long nCr(long long n, long long r) {
+  if (r > n) return 0;
+  if (r > n - r) r = n - r;
+  unsigned long long result = 1;
+  for (int i = 0; i < r; ++i) {
+    result *= (n - i);
+    result /= (i + 1);
+  }
+  return result;
 }
