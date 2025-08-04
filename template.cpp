@@ -15,7 +15,7 @@
 #include <iostream>
 #include <chrono>
 using namespace std;
-using namespace __gnu_pbds;
+// using namespace __gnu_pbds;
 typedef long long ll;
 #define whole(v) v.begin(), v.end()
 #define arr_out(v) for (auto x: v) cout << x << " "; cout << "\n";
@@ -67,11 +67,13 @@ private:
     return false;
   }
 public:
-  void addEdge(const _Tp& from, const _Tp& to, bool directed = true) {
-    g[from].insert(to);
-    if (!directed) g[to].insert(from);
-    edges.insert({from, to});
-  }
+void addEdge(const _Tp& from, const _Tp& to, bool directed = true) {
+  if (!g.count(from)) g[from] = {};
+  if (!g.count(to)) g[to] = {};
+  g[from].insert(to);
+  if (!directed) g[to].insert(from);
+  edges.insert({from, to});
+}
   bool hasNode(const _Tp& u) const { return g.find(u) != g.end(); }
   bool hasEdge(const _Tp& u, const _Tp& v) const { auto it = g.find(u); return it != g.end() && it->second.count(v); }
   std::vector<_Tp> neighbors(const _Tp& u) const { if (!hasNode(u)) return {}; return std::vector<_Tp>(g.at(u).begin(), g.at(u).end()); }
