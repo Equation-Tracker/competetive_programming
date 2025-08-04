@@ -6,7 +6,9 @@
 |  Status   : [ ACTIVE ]                          |
 \*==============================================*/
 
-#pragma GCC optimize("Ofast", "O3")
+#if defined(__GNUC__) && !defined(DEBUG)
+  #pragma GCC optimize("Ofast", "O3")
+#endif
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #include <bits/stdc++.h>
@@ -337,9 +339,11 @@ public:
 vector<long long> primes{};
 void genPrimes(long long lim = 2.53e6);
 int main(int argc, char const *argv[]) {
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
-  cout.tie(NULL);
+  #if !defined(DEBUG)
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+  #endif
   totalSolution();
   return 0;
 }
