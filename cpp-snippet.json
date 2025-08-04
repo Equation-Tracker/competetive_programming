@@ -98,6 +98,8 @@
       "\t}",
       "public:",
       "\tvoid addEdge(const _Tp& from, const _Tp& to, bool directed = true) {",
+      "\t\tif (!g.count(from)) g[from] = {};",
+      "\t\tif (!g.count(to)) g[to] = {};",
       "\t\tg[from].insert(to);",
       "\t\tif (!directed) g[to].insert(from);",
       "\t\tedges.insert({from, to});",
