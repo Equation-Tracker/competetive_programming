@@ -17,6 +17,16 @@
 using namespace std;
 // using namespace __gnu_pbds;
 typedef long long ll;
+typedef int8_t i8_t;
+typedef uint8_t u8_t;
+typedef int16_t i16_t;
+typedef uint16_t u16_t;
+typedef int32_t i32_t;
+typedef uint32_t u32_t;
+typedef int64_t i64_t;
+typedef uint64_t u64_t;
+typedef __int128_t i128_t;
+typedef __uint128_t u128_t;
 #define whole(v) v.begin(), v.end()
 #define arr_out(v) for (auto x: v) cout << x << " "; cout << "\n";
 #define loop(x) for (long long i = 0; i < x; i++)
@@ -388,3 +398,4 @@ long long nCr(long long n, long long r) {
   }
   return result;
 }
+
