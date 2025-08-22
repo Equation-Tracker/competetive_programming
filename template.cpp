@@ -15,7 +15,7 @@
 #include <iostream>
 #include <chrono>
 using namespace std;
-// using namespace __gnu_pbds;
+using namespace __gnu_pbds;
 typedef long long ll;
 typedef int8_t i8_t;
 typedef uint8_t u8_t;
@@ -34,6 +34,21 @@ struct custom_hash {
   static uint64_t splitmix64(uint64_t x);
   size_t operator()(uint64_t x) const;
 };
+std::ostream& operator<<(std::ostream& os, i128_t x) {
+  if (x == 0) { os << '0'; return os; }
+  if (x < 0) { os << '-'; x = -x; }
+  char buf[50]; int i = 0;
+  while (x > 0) { int digit = int(x % 10); buf[i++] = char('0' + digit); x /= 10; }
+  while (i--) os << buf[i];
+  return os;
+}
+std::ostream& operator<<(std::ostream& os, u128_t x) {
+  if (x == 0) { os << '0'; return os; }
+  char buf[50]; int i = 0;
+  while (x > 0) { int digit = int(x % 10); buf[i++] = char('0' + digit); x /= 10; }
+  while (i--) os << buf[i];
+  return os;
+}
 void totalSolution();
 void caseSolution();
 long long nCr(long long, long long);
@@ -77,13 +92,13 @@ private:
     return false;
   }
 public:
-void addEdge(const _Tp& from, const _Tp& to, bool directed = true) {
-  if (!g.count(from)) g[from] = {};
-  if (!g.count(to)) g[to] = {};
-  g[from].insert(to);
-  if (!directed) g[to].insert(from);
-  edges.insert({from, to});
-}
+  void addEdge(const _Tp& from, const _Tp& to, bool directed = true) {
+    if (!g.count(from)) g[from] = {};
+    if (!g.count(to)) g[to] = {};
+    g[from].insert(to);
+    if (!directed) g[to].insert(from);
+    edges.insert({from, to});
+  }
   bool hasNode(const _Tp& u) const { return g.find(u) != g.end(); }
   bool hasEdge(const _Tp& u, const _Tp& v) const { auto it = g.find(u); return it != g.end() && it->second.count(v); }
   std::vector<_Tp> neighbors(const _Tp& u) const { if (!hasNode(u)) return {}; return std::vector<_Tp>(g.at(u).begin(), g.at(u).end()); }
@@ -363,7 +378,7 @@ void caseSolution() {
   long long n = 0, m = 0, k = 0, l = 0, sum = 0, t1 = 0, t2 = 0;
   string s = "", t = "";
   cin >> n;
-
+  
 }
 void totalSolution() {
   long long T;
@@ -398,4 +413,3 @@ long long nCr(long long n, long long r) {
   }
   return result;
 }
-
